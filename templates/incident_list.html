@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Incident #{{ incident.id }}: {{ incident.title }}</h2>
+
+<p><strong>Status:</strong> {{ incident.status }}</p>
+<p><strong>Description:</strong> {{ incident.description }}</p>
+
+{% if current_user.role == 'admin' %}
+<form method="POST">
+    <div class="mb-3">
+        <label>Assign To</label>
+        <select name="assigned_to" class="form-control">
+            <option value="">-- Unassigned --</option>
+            {% for user in users %}
+                <option value="{{ user.id }}" {% if incident.assigned_to == user.id %}selected{% endif %}>{{ user.username }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Status</label>
+        <select name="status" class="form-control">
+            <option {% if incident.status == 'Open' %}selected{% endif %}>Open</option>
+            <option {% if incident.status == 'Assigned' %}selected{% endif %}>Assigned</option>
+            <option {% if incident.status == 'Resolved' %}selected{% endif %}>Resolved</option>
+        </select>
+    </div>
+    <button class="btn btn-primary">Update</button>
+</form>
+{% endif %}
+
+<a class="btn btn-secondary mt-3" href="{{ url_for('main.dashboard') }}">Back</a>
+{% endblock %}
