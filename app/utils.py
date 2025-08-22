@@ -3,5 +3,9 @@ from . import mail
 from flask import current_app
 
 def send_email(subject, recipients, body):
-    msg = Message(subject=subject, recipients=recipients, body=body)
+    msg = Message(subject=subject,
+                  recipients=recipients,
+                  body=body,
+                  sender=current_app.config['MAIL_DEFAULT_SENDER'])
     mail.send(msg)
+

@@ -29,7 +29,7 @@ def create_incident():
         send_email("New Incident Logged", [current_user.email], f"Incident: {incident.title}")
         flash("Incident created")
         return redirect(url_for('main.dashboard'))
-    return render_template('create_incident.html')
+    return render_template('incident_form.html')
 
 @main.route('/incident/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -42,4 +42,4 @@ def view_incident(id):
         db.session.commit()
         send_email("Incident Updated", [incident.created_by.email], f"Status: {incident.status}")
         flash("Incident updated")
-    return render_template('incident_detail.html', incident=incident, users=users)
+    return render_template('incident_list.html', incident=incident, users=users)
